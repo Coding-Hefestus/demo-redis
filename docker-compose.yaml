@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  redis-db:
+    container_name: redis_db
+    image: "redis/redis-stack"
+    ports:
+      - "6379:6379"
+    environment:
+      - "REDIS_ARGS=--appendonly yes"
+    #volumes:
+    #  - ./data:/data
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
