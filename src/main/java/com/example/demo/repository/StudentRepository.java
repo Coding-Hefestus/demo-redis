@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface StudentRepository extends CrudRepository<Student, Long>, QueryByExampleExecutor<Student> {
 
-    List<Student> findByUserNameAndEventTimestampBetweenOrderByEventTimestampAsc(
-            String userName, String fromDate, String toDate);
+    List<Student> findByUserNameAndEventTimestampBetweenOrderByEventTimestampAsc(String userName, String fromDate, String toDate);
+
+    List<Student> findByUserName(String userName);
 }
