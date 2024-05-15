@@ -49,7 +49,7 @@ public class DemoApplication implements CommandLineRunner {
 		var matcher =
 				ExampleMatcher.matching()
 						.withMatcher(
-								"user", ExampleMatcher.GenericPropertyMatcher::exact);
+								"userName", ExampleMatcher.GenericPropertyMatcher::exact);
 
 		var student = Student.builder().userName("pera").build();
 
