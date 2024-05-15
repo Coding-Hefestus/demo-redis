@@ -10,6 +10,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.function.Function;
 
 @SpringBootApplication
 @ComponentScan(
@@ -30,23 +34,27 @@ import java.util.List;
 public class DemoApplication implements CommandLineRunner {
 
 	private final StudentRepository studentRepository;
-	private final RedisProperties redisProperties;
-	private final RediSearchIndexer rediSearchIndexer;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-	@GetMapping("/save")
-	public String saveEntity(){
-		Student s = studentRepository.save(Student.builder().userName("pera").build());
-		System.out.println(s.getId().toString());
-		return s.getId().toString();
-	}
 
 	@GetMapping("/get")
 	public String getEntity(){
-		System.out.println(studentRepository.findByUserName("pera"));
+		Function<FluentQuery.FetchableFluentQuery<Student>, Student> sortFunction =
+				query ->
+						query.sortBy(Sort.by("Event-Timestamp").descending()).firstValue();
+
+		var matcher =
+				ExampleMatcher.matching()
+						.withMatcher(
+								"user", ExampleMatcher.GenericPropertyMatcher::exact);
+
+		var student = Student.builder().userName("pera").build();
+
+		Student result = studentRepository.findFirstByPropertyOrderByEventTimestamp(student, matcher, sortFunction);
+		System.out.println(result);
 		return "a";
 	}
 

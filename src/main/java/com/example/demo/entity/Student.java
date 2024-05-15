@@ -20,10 +20,10 @@ public class Student {
     @Id
     private Long id;
 
-    @Indexed(alias = "User-Name")//  fieldName = "User-Name", schemaFieldType = SchemaFieldType.TAG
+    @Indexed(alias = "User-Name")
     private String userName;
 
-    @Indexed
+    @Indexed(alias = "Event-Timestamp")
     private LocalDateTime eventTimestamp;
 
 
