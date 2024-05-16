@@ -53,7 +53,8 @@ public class DemoApplication implements CommandLineRunner {
 
 		var student = Student.builder().userName("pera").build();
 
-		Student result = studentRepository.findFirstByPropertyOrderByEventTimestamp(student, matcher, sortFunction);
+		//Student result = studentRepository.findFirstByPropertyOrderByEventTimestamp(student, matcher, sortFunction);
+		List<Student> result = studentRepository.findByUserNameAndEventTimestampBetweenOrderByEventTimestampAsc("pera", "1611995400000", "1715851029021");
 		System.out.println(result);
 		return "a";
 	}

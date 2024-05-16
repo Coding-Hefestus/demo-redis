@@ -1,12 +1,12 @@
 server:
   port: 8080
   use-forwarded-headers: true
-redis:
-  om:
-    spring:
-      repository:
-        query:
-          limit: 1000000
+#redis:
+#  om:
+#    spring:
+#      repository:
+#        query:
+#          limit: 10000
 
 spring:
   data:
